@@ -27,13 +27,14 @@ class GetRemoteMedicationsUseCaseTest {
     fun `execute calls repository and returns data`() = runBlocking {
         val mockMedications = listOf(
             Medication("Med1", "10mg", "Strong", "Description1", "Scientific1", "Publisher1")
-            // Add more mock medications as needed
+
         )
         Mockito.`when`(mockRepository.getMedications()).thenReturn(mockMedications)
 
         val result = getRemoteMedicationsUseCase.execute()
 
         Mockito.verify(mockRepository).getMedications()
+
         assertEquals(mockMedications, result)
     }
 }
