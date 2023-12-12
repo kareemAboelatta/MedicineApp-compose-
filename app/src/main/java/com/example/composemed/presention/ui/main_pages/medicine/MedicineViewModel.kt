@@ -8,7 +8,7 @@ import com.example.common.utils.UIState
 import com.example.common.utils.mapToCustomError
 import com.example.composemed.domain.model.models.Medication
 import com.example.composemed.domain.usecases.GetRemoteMedicationsUseCase
-import com.example.composemed.domain.usecases.SavedMedicineUseCase
+import com.example.composemed.domain.usecases.SaveMedicineUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MedicineViewModel @Inject constructor(
     private val getRemoteMedicationsUseCase: GetRemoteMedicationsUseCase,
-    private val savedMedicineUseCase: SavedMedicineUseCase,
+    private val saveMedicineUseCase: SaveMedicineUseCase,
 ) : ViewModel() {
 
     private val _medicineState = mutableStateOf<UIState<List<Medication>>>(UIState.Empty)
@@ -57,7 +57,7 @@ class MedicineViewModel @Inject constructor(
         _saveMedicineState.value = UIState.Loading
         viewModelScope.launch {
             runCatching {
-                savedMedicineUseCase.execute(medication)
+                saveMedicineUseCase.execute(medication)
             }.onSuccess {
                 _saveMedicineState.value = UIState.Success(medication)
             }.onFailure { throwable ->
