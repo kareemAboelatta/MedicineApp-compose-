@@ -10,5 +10,6 @@ data class MedicationEntity(
     val dose: String,
     val strength: String,
     val description: String,
-    val scientificName: String
+    val scientificName: String,
+    val publisher: String
 )

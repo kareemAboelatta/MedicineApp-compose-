@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.composemed.presention.theme.ComposeMedTheme
-import com.example.composemed.presention.ui.main_page.MainScreen
+import com.example.composemed.presention.ui.main_pages.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 

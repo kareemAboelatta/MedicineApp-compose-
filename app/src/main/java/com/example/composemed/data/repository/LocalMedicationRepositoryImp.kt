@@ -23,7 +23,8 @@ class LocalMedicationRepositoryImp @Inject constructor(
             dose = this.dose,
             strength = this.strength,
             description = this.description,
-            scientificName = this.scientificName
+            scientificName = this.scientificName,
+            publisher = this.publisher,
         )
     }
 
@@ -33,7 +34,8 @@ class LocalMedicationRepositoryImp @Inject constructor(
             dose = this.dose,
             strength = this.strength,
             description = this.description,
-            scientificName = this.scientificName
+            scientificName = this.scientificName,
+            publisher = this.publisher,
         )
     }
 }

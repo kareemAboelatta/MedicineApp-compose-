@@ -11,7 +11,9 @@ data class ApiMedicationModel(
     val dose: String,
     val strength: String,
     val description: String,
-    val scientificName: String
+    val scientificName: String,
+    val publisher: String
+
 )
 
 
@@ -24,5 +26,7 @@ fun ApiMedicationModel.toDomainModel(): Medication {
         strength = strength,
         description = description,
         scientificName = scientificName,
+        publisher = publisher,
+
     )
 }

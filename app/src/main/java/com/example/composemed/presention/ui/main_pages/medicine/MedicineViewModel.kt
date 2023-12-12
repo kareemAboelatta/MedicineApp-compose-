@@ -1,4 +1,4 @@
-package com.example.composemed.presention.ui.medicine
+package com.example.composemed.presention.ui.main_pages.medicine
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

@@ -1,5 +1,6 @@
-package com.example.composemed.presention.ui.favorite_page
+package com.example.composemed.presention.ui.main_pages.favorite_page
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,9 +21,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.common.utils.UIState
 import com.example.composemed.domain.model.models.Medication
-import com.example.composemed.presention.ui.medicine.CentralizedErrorView
-import com.example.composemed.presention.ui.medicine.CentralizedProgressIndicator
-import com.example.composemed.presention.ui.medicine.CentralizedTextView
+import com.example.composemed.presention.ui.main_pages.medicine.CentralizedErrorView
+import com.example.composemed.presention.ui.main_pages.medicine.CentralizedProgressIndicator
+import com.example.composemed.presention.ui.main_pages.medicine.CentralizedTextView
 
 @Composable
 fun FavoritesPage(
@@ -30,35 +31,56 @@ fun FavoritesPage(
     viewModel: FavoritesViewModel = hiltViewModel()
 ) {
     when (val savedMedicineState = viewModel.savedMedicineState.value) {
-        is UIState.Success -> FavoritesGridSection(medicines = savedMedicineState.data)
+        is UIState.Success -> FavoritesGridSection(
+            medicines = savedMedicineState.data,
+            navController = navController
+        )
+
         is UIState.Loading -> CentralizedProgressIndicator()
         is UIState.Error -> CentralizedErrorView(
             error = savedMedicineState.error,
             onRetry = viewModel::fetchSavedMedications
         )
+
         UIState.Empty -> CentralizedTextView(text = "No saved medications available!")
     }
 }
 
 @Composable
-fun FavoritesGridSection(medicines: List<Medication>) {
+fun FavoritesGridSection(
+    medicines: List<Medication>,
+    navController: NavHostController,
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2), // Adjust the number of columns
         contentPadding = PaddingValues(all = 8.dp),
         content = {
             items(medicines) { medication ->
-                MedicationGridItem(medication = medication)
+                MedicationGridItem(
+                    medication = medication,
+                    onDetailsClick = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            key = "medicine",
+                            value = medication
+                        )
+                        navController.navigate("MedicineDetailsPage")
+                    },
+                )
             }
         }
     )
 }
 
 @Composable
-fun MedicationGridItem(medication: Medication) {
+fun MedicationGridItem(
+    medication: Medication,
+    onDetailsClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = onDetailsClick),
         shape = RoundedCornerShape(15.dp),
     ) {
         Column(

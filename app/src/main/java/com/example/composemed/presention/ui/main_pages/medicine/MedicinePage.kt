@@ -1,4 +1,4 @@
-package com.example.composemed.presention.ui.medicine
+package com.example.composemed.presention.ui.main_pages.medicine
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -41,7 +41,12 @@ fun MedicinePage(
     viewModel: MedicineViewModel = hiltViewModel()
 ) {
     when (val medicineState = viewModel.medicineState.value) {
-        is UIState.Success -> MedicineListSection(medicines = medicineState.data , viewModel= viewModel)
+        is UIState.Success -> MedicineListSection(
+            medicines = medicineState.data,
+            viewModel = viewModel,
+            navController = navController
+        )
+
         is UIState.Loading -> CentralizedProgressIndicator()
         is UIState.Error -> CentralizedErrorView(
             error = medicineState.error,
@@ -53,12 +58,22 @@ fun MedicinePage(
 }
 
 @Composable
-fun MedicineListSection(medicines: List<Medication>, viewModel: MedicineViewModel) {
+fun MedicineListSection(
+    medicines: List<Medication>,
+    viewModel: MedicineViewModel,
+    navController: NavHostController,
+) {
     LazyColumn {
         items(medicines) { medication ->
             MedicationItem(
                 medication = medication,
-                onDetailsClick = {},
+                onDetailsClick = {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        key = "medicine",
+                        value = medication
+                    )
+                    navController.navigate("MedicineDetailsPage")
+                },
                 onSaveClick = { viewModel.saveMedicine(medication) }
             )
         }

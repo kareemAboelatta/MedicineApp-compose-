@@ -1,4 +1,4 @@
-package com.example.composemed.presention.ui.favorite_page
+package com.example.composemed.presention.ui.main_pages.favorite_page
 
 import androidx.lifecycle.ViewModel
 import com.example.common.utils.UIState

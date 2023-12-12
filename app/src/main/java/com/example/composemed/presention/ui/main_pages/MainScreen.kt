@@ -1,4 +1,4 @@
-package com.example.composemed.presention.ui.main_page
+package com.example.composemed.presention.ui.main_pages
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.padding
@@ -17,16 +17,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.composemed.R
-import com.example.composemed.presention.ui.favorite_page.FavoritesPage
-import com.example.composemed.presention.ui.medicine.MedicinePage
-
-
+import com.example.composemed.domain.model.models.Medication
+import com.example.composemed.presention.ui.main_pages.favorite_page.FavoritesPage
+import com.example.composemed.presention.ui.main_pages.medicine.MedicinePage
+import com.example.composemed.presention.ui.main_pages.medicine_details_page.MedicineDetailsPage
 
 
 enum class Screen(val route: String, @DrawableRes val icon : Int) {
     Home("home", R.drawable.ic_home),
     Favorites("favorites", R.drawable.ic_favorite)
 }
+
 
 @Composable
 fun MainScreen() {
@@ -44,6 +45,13 @@ fun MainScreen() {
             }
             composable(Screen.Favorites.route) {
                 FavoritesPage(navController = navController)
+            }
+
+            composable("MedicineDetailsPage") {
+                val result = navController.previousBackStackEntry?.savedStateHandle?.get<Medication>("medicine")
+                result?.let {
+                    MedicineDetailsPage(navController = navController, medication = result)
+                }
             }
         }
     }
