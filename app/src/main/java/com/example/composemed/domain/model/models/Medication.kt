@@ -1,4 +1,4 @@
-package com.example.composemed.domain.model
+package com.example.composemed.domain.model.models
 
 
 

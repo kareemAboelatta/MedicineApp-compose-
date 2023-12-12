@@ -1,6 +1,6 @@
 package com.example.composemed.data.models
 
-import com.example.composemed.domain.model.Medication
+import com.example.composemed.domain.model.models.Medication
 
 data class ApiResponse(
     val medications: List<ApiMedicationModel>
@@ -16,7 +16,8 @@ data class ApiMedicationModel(
 
 
 
-fun ApiMedicationModel.toDomainModel():Medication{
+//Mapper
+fun ApiMedicationModel.toDomainModel(): Medication {
     return Medication(
         name = name,
         dose = dose,

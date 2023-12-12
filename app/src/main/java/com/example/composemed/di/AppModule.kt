@@ -1,9 +1,14 @@
 package com.example.composemed.di
 
 import android.content.Context
+import androidx.room.Room
 import com.example.composemed.common.Constants
+import com.example.composemed.data.local.AppDatabase
+import com.example.composemed.data.local.MedicationDao
 import com.example.composemed.data.remote.ApiHealthService
+import com.example.composemed.data.repository.LocalMedicationRepositoryImp
 import com.example.composemed.data.repository.MedicationRepositoryImpl
+import com.example.composemed.domain.repository.LocalMedicationRepository
 import com.example.composemed.domain.repository.MedicationRepository
 
 import dagger.Module
@@ -25,6 +30,10 @@ AppModule {
     fun provideContext(@ApplicationContext context: Context) = context
 
 
+
+
+
+    //remote
     @Singleton
     @Provides
     fun provideApiHealthService(): ApiHealthService {
@@ -41,6 +50,40 @@ AppModule {
         apiPlaceholderService: ApiHealthService
     ): MedicationRepository =
         MedicationRepositoryImpl(apiService = apiPlaceholderService)
+
+
+
+
+
+
+
+
+
+
+
+    //local
+    @Singleton
+    @Provides
+    fun provideLocalMedicationRepository(
+        medicationDao: MedicationDao
+    ): LocalMedicationRepository =
+        LocalMedicationRepositoryImp(medicationDao = medicationDao)
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
+        return Room.databaseBuilder(
+            appContext,
+            AppDatabase::class.java,
+            "medication_database"
+        ).build()
+    }
+
+    @Provides
+    fun provideMedicationDao(database: AppDatabase): MedicationDao {
+        return database.medicationDao()
+    }
+
 
 
 
