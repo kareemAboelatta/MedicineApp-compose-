@@ -1,4 +1,4 @@
-package com.example.composemed.home.ui.main_pages.favorite_page
+package com.example.composemed.home.ui.pages.favorite_page
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,9 +21,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.common.utils.UIState
 import com.example.composemed.home.domain.model.models.Medication
-import com.example.composemed.home.ui.main_pages.medicine.CentralizedErrorView
-import com.example.composemed.home.ui.main_pages.medicine.CentralizedProgressIndicator
-import com.example.composemed.home.ui.main_pages.medicine.CentralizedTextView
+import com.example.composemed.home.ui.common.CentralizedErrorView
+import com.example.composemed.home.ui.common.CentralizedProgressIndicator
+import com.example.composemed.home.ui.common.CentralizedTextView
+
 
 @Composable
 fun FavoritesPage(

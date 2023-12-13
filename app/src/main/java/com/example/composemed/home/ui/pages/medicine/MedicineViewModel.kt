@@ -1,4 +1,4 @@
-package com.example.composemed.home.ui.main_pages.medicine
+package com.example.composemed.home.ui.pages.medicine
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +23,6 @@ class MedicineViewModel @Inject constructor(
 
     private val _medicineState = mutableStateOf<UIState<List<Medication>>>(UIState.Empty)
     val medicineState: State<UIState<List<Medication>>> get() = _medicineState
-
 
 
     private val _saveMedicineState = mutableStateOf<UIState<Medication>>(UIState.Empty)

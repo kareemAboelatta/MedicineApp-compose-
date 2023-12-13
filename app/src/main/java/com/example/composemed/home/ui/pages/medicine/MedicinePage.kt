@@ -1,5 +1,8 @@
-package com.example.composemed.home.ui.main_pages.medicine
+package com.example.composemed.home.ui.pages.medicine
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,29 +13,47 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.common.utils.CustomError
+import com.example.common.ui.utils.PaddingDimensions
 import com.example.common.utils.UIState
-import com.example.common.utils.getDisplayMessage
 import com.example.composemed.home.domain.model.models.Medication
+import com.example.composemed.home.ui.common.CentralizedErrorView
+import com.example.composemed.home.ui.common.CentralizedProgressIndicator
+import com.example.composemed.home.ui.common.CentralizedTextView
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -63,18 +84,66 @@ fun MedicineListSection(
     viewModel: MedicineViewModel,
     navController: NavHostController,
 ) {
-    LazyColumn {
-        items(medicines) { medication ->
-            MedicationItem(
-                medication = medication,
-                onDetailsClick = {
-                    navController.currentBackStackEntry?.savedStateHandle?.set(
-                        key = "medicine",
-                        value = medication
-                    )
-                    navController.navigate("MedicineDetailsPage")
-                },
-                onSaveClick = { viewModel.saveMedicine(medication) }
+    Box {
+        val listState = rememberLazyListState()
+        val scope = rememberCoroutineScope()
+
+        LazyColumn(
+            state = listState
+        ) {
+            items(medicines) { medication ->
+                MedicationItem(
+                    medication = medication,
+                    onDetailsClick = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            key = "medicine",
+                            value = medication
+                        )
+                        navController.navigate("MedicineDetailsPage")
+                    },
+                    onSaveClick = { viewModel.saveMedicine(medication) }
+                )
+            }
+        }
+
+        val showButton by remember {
+            derivedStateOf {
+                listState.firstVisibleItemIndex > 0
+            }
+        }
+
+        AnimatedVisibility(
+            visible = showButton,
+            enter = fadeIn(),
+            exit = fadeOut(),
+        ) {
+            ScrollToTopButton(onClick = {
+                scope.launch {
+                    listState.animateScrollToItem(0)
+                }
+            })
+        }
+
+
+    }
+}
+
+@Composable
+fun ScrollToTopButton(onClick: () -> Unit) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .padding(bottom = PaddingDimensions.xxLarge), Alignment.BottomCenter
+    ) {
+        Button(
+            onClick = { onClick() }, modifier = Modifier
+                .clip(shape = RoundedCornerShape(10.dp)),
+
+        ) {
+            Icon(Icons.Filled.KeyboardArrowUp, "arrow up")
+            Text(
+                text = "Scroll To Top",
+                style = MaterialTheme.typography.labelMedium
             )
         }
     }
@@ -87,6 +156,7 @@ fun MedicationItem(
     onSaveClick: () -> Unit,
     onDetailsClick: () -> Unit
 ) {
+    var isLiked by remember {  mutableStateOf(false) } //dummy
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -118,56 +188,19 @@ fun MedicationItem(
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-            IconButton(onClick = onSaveClick) {
-                Icon(Icons.Outlined.FavoriteBorder, contentDescription = "Save")
-            }
-        }
-    }
-}
-
-
-@Composable
-fun CentralizedProgressIndicator() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-fun CentralizedErrorView(error: CustomError, onRetry: () -> Unit = {}) {
-    val errorMessage = error.getDisplayMessage() // Assuming you added an extension on CustomError
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = errorMessage,
-                style = MaterialTheme.typography.headlineMedium.copy(
-                    color = MaterialTheme.colorScheme.error,
-                    fontWeight = FontWeight.Bold
+            IconButton(onClick = {
+                isLiked = !isLiked
+                onSaveClick()
+            }) {
+                Icon(
+                    imageVector = if(isLiked) Icons.Outlined.Favorite else Icons.Outlined.FavoriteBorder,
+                    contentDescription = "Like"
                 )
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(onClick = onRetry) {
-                Text(text = "Retry")
             }
         }
     }
 }
 
-@Composable
-fun CentralizedTextView(text: String) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = text)
-    }
-}
 
 
 
