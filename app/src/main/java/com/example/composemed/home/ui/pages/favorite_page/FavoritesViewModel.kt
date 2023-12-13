@@ -6,7 +6,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.common.utils.mapToCustomError
-import com.example.composemed.home.domain.model.models.Medication
+import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.domain.usecases.GetSavedMedicationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

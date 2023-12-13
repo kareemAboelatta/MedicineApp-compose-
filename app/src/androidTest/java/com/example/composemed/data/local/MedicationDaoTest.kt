@@ -1,7 +1,7 @@
 package com.example.composemed.data.local
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.composemed.home.domain.model.entities.MedicationEntity
+import com.example.composemed.home.data.local.entities.MedicationEntity
 import org.junit.runner.RunWith
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider

@@ -1,8 +1,8 @@
 package com.example.composemed.home.data.repository
 
-import com.example.composemed.home.data.models.toDomainModel
+import com.example.composemed.home.data.remote.models.toDomainModel
 import com.example.composemed.home.data.remote.ApiHealthService
-import com.example.composemed.home.domain.model.models.Medication
+import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.domain.repository.MedicationRepository
 
 

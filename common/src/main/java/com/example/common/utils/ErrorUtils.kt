@@ -5,7 +5,7 @@ import java.io.IOException
 
 fun CustomError.getDisplayMessage(): String {
     return when (this) {
-        is CustomError.NoInternetError -> "No internet connection. Please check and try again."
+        is CustomError.NoInternetError -> "No internet connection, Please check and try again."
         is CustomError.ServerError -> "A server error occurred: ${this.code}."
         else -> "An unexpected error occurred. Please try again."
     }

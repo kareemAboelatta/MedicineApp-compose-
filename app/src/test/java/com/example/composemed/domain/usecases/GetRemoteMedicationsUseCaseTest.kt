@@ -1,6 +1,6 @@
 package com.example.composemed.domain.usecases
 
-import com.example.composemed.home.domain.model.models.Medication
+import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.domain.repository.MedicationRepository
 import com.example.composemed.home.domain.usecases.GetRemoteMedicationsUseCase
 import kotlinx.coroutines.runBlocking

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -13,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.common.ui.utils.PaddingDimensions
 import com.example.common.utils.CustomError
 import com.example.common.utils.getDisplayMessage
 
@@ -32,7 +35,7 @@ fun CentralizedProgressIndicator() {
 fun CentralizedErrorView(error: CustomError, onRetry: () -> Unit = {}) {
     val errorMessage = error.getDisplayMessage() // Assuming you added an extension on CustomError
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(PaddingDimensions.large),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -41,7 +44,8 @@ fun CentralizedErrorView(error: CustomError, onRetry: () -> Unit = {}) {
                 style = MaterialTheme.typography.headlineMedium.copy(
                     color = MaterialTheme.colorScheme.error,
                     fontWeight = FontWeight.Bold
-                )
+                ),
+                textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = onRetry) {

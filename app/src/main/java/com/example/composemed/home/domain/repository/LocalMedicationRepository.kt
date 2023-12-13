@@ -1,6 +1,6 @@
 package com.example.composemed.home.domain.repository
 
-import com.example.composemed.home.domain.model.models.Medication
+import com.example.composemed.home.domain.model.Medication
 
 interface LocalMedicationRepository {
 

@@ -1,4 +1,5 @@
-package com.example.composemed.home.domain.model.models
+package com.example.composemed.home.domain.model
+
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

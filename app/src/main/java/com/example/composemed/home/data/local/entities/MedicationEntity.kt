@@ -1,4 +1,4 @@
-package com.example.composemed.home.domain.model.entities
+package com.example.composemed.home.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

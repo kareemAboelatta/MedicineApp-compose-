@@ -1,5 +1,6 @@
 package com.example.composemed.auth.ui.login
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -34,12 +36,15 @@ import com.example.common.ui.components.PasswordTextField
 import com.example.common.ui.components.animations.InfinitelyScaling
 import com.example.common.ui.utils.PaddingDimensions
 import com.example.composemed.R
+import com.example.composemed.Screen
 
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
 
     val state = rememberLoginDataState()
+
+    val context = LocalContext.current
 
 
     Column(
@@ -54,10 +59,11 @@ fun LoginScreen(navController: NavHostController) {
             Icon(
                 modifier = Modifier.size(100.dp),
                 tint = MaterialTheme.colorScheme.primary,
-                painter = painterResource(id = R.drawable.ic_medical_information), contentDescription = "app logo"
+                painter = painterResource(id = R.drawable.ic_medical_information),
+                contentDescription = "app logo"
             )
         }
-        Spacer(modifier = Modifier.height(PaddingDimensions.xxLarge*3))
+        Spacer(modifier = Modifier.height(PaddingDimensions.xxLarge * 3))
 
         Text(
             text = "Medical Information",
@@ -70,8 +76,8 @@ fun LoginScreen(navController: NavHostController) {
         AppTextField(
             modifier = Modifier
                 .fillMaxWidth(),
-            text = state.email,
-            hint = "Email",
+            text = state.username,
+            hint = "Username",
             imageVector = Icons.Outlined.Email,
             onValueChange = {
                 state.updateEmail(it)
@@ -99,12 +105,18 @@ fun LoginScreen(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxWidth(),
             onClick = {
-
-                navController.navigate("home") {
-                    popUpTo("auth") {
-                        inclusive = true
+                if (state.username.isNotEmpty()) {
+                    navController.navigate(Screen.Home.route + "/${state.username}") {
+                        popUpTo(Screen.Auth.route) { inclusive = true }
                     }
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Please enter a username",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+
 
             }
         ) {
@@ -129,13 +141,13 @@ class LoginDataState(
     val initialEmail: String = "",
     val initialPassword: String = "",
 ) {
-    var email by mutableStateOf(initialEmail)
+    var username by mutableStateOf(initialEmail)
         private set
     var password by mutableStateOf(initialPassword)
         private set
 
     fun updateEmail(newEmail: String) {
-        email = newEmail
+        username = newEmail
     }
 
     fun updatePassword(newPassword: String) {
@@ -146,7 +158,7 @@ class LoginDataState(
     companion object {
         val Saver: Saver<LoginDataState, *> = listSaver(
             save = {
-                listOf(it.email, it.password)
+                listOf(it.username, it.password)
             },
             restore = {
                 LoginDataState(

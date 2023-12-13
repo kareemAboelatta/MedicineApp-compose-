@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.utils.UIState
 import com.example.common.utils.mapToCustomError
-import com.example.composemed.home.domain.model.models.Medication
+import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.domain.usecases.GetRemoteMedicationsUseCase
 import com.example.composemed.home.domain.usecases.SaveMedicineUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
@@ -30,9 +31,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.composemed.home.domain.model.models.Medication
+import com.example.common.ui.utils.PaddingDimensions
+import com.example.composemed.home.domain.model.Medication
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,10 +43,27 @@ import com.example.composemed.home.domain.model.models.Medication
 fun MedicineDetailsPage(medication: Medication, navController: NavController) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Medication Details") })
+            TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = {
+                        navController.navigateUp()
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = ""
+                        )
+                    }
+                },
+                title = {
+                    Text(
+                        "Medication Details",
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    )
+                })
         }
     ) {
-        val scrollState = rememberScrollState()
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -52,17 +72,15 @@ fun MedicineDetailsPage(medication: Medication, navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MedicineDetailCard("Name", medication.name)
+            AnimatedMedicineDetailCard("Description", medication.description)
             MedicineDetailCard("Dose", medication.dose)
             MedicineDetailCard("Strength", medication.strength)
-            AnimatedMedicineDetailCard("Description", medication.description)
             MedicineDetailCard("Scientific Name", medication.scientificName)
             MedicineDetailCard("Publisher", medication.publisher)
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(PaddingDimensions.large))
 
-            Button(onClick = { navController.navigateUp() }) {
-                Text("Go Back")
-            }
+
         }
     }
 }
@@ -79,17 +97,21 @@ fun AnimatedMedicineDetailCard(label: String, value: String) {
             .clickable {
                 isExpanded = !isExpanded
             }
-            .padding(vertical = 4.dp),
+            .padding(PaddingDimensions.medium),
         shape = RoundedCornerShape(10.dp),
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(PaddingDimensions.large)) {
             Row {
                 Text(
                     modifier = Modifier.weight(1f),
                     text = label,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = Color.DarkGray
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    ),
                 )
+
+
 
                 IconButton(
                     onClick = {
@@ -106,7 +128,12 @@ fun AnimatedMedicineDetailCard(label: String, value: String) {
                 enter = fadeIn(animationSpec = tween(200)),
                 exit = fadeOut(animationSpec = tween(100))
             ) {
-                Text(text = value, style = MaterialTheme.typography.bodySmall, color = Color.Black)
+                Text(
+                    text = value,
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                )
             }
         }
     }
@@ -117,17 +144,26 @@ fun MedicineDetailCard(label: String, value: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(
+                PaddingDimensions.medium
+            ),
         shape = RoundedCornerShape(10.dp),
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(PaddingDimensions.small)) {
             Text(
                 text = label,
-                style = MaterialTheme.typography.titleLarge,
-                color = Color.DarkGray
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                ),
             )
 
-            Text(text = value, style = MaterialTheme.typography.bodySmall, color = Color.Black)
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.primary
+                )
+            )
 
         }
     }

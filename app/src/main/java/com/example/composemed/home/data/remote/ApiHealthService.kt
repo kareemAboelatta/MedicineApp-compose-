@@ -1,7 +1,7 @@
 package com.example.composemed.home.data.remote
 
 
-import com.example.composemed.home.data.models.ApiResponse
+import com.example.composemed.home.data.remote.models.ApiResponse
 import retrofit2.http.GET
 
 

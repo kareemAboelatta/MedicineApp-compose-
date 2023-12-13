@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.common.utils.UIState
-import com.example.composemed.home.domain.model.models.Medication
+import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.ui.common.CentralizedErrorView
 import com.example.composemed.home.ui.common.CentralizedProgressIndicator
 import com.example.composemed.home.ui.common.CentralizedTextView
