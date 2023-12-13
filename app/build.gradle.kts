@@ -77,6 +77,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation ("androidx.compose.ui:ui-util:1.5.4")
+
+
     implementation(project(mapOf("path" to ":common")))
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -85,12 +88,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation ("androidx.compose.ui:ui-util:1.5.4")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation ("org.mockito:mockito-core:2.28.2")
-
-
 
 
 

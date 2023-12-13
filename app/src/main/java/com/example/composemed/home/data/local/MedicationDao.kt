@@ -6,6 +6,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.composemed.home.data.local.entities.MedicationEntity
 
+
+//Tested
 @Dao
 interface MedicationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

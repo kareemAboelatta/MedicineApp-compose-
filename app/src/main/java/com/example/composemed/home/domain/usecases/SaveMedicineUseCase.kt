@@ -4,6 +4,8 @@ import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.domain.repository.LocalMedicationRepository
 import javax.inject.Inject
 
+
+//Tested
 class SaveMedicineUseCase @Inject constructor(
     private val repository: LocalMedicationRepository
 ) {

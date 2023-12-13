@@ -137,6 +137,8 @@ fun rememberLoginDataState(): LoginDataState =
         LoginDataState()
     }
 
+
+//login state holder
 class LoginDataState(
     val initialEmail: String = "",
     val initialPassword: String = "",

@@ -21,16 +21,18 @@ import com.example.common.R
 
 @Composable
 fun ButtonWithIcon(
-    @DrawableRes icon: Int = R.drawable.ic_add_cart,
+    @DrawableRes icon: Int,
+    text:String,
+    onClick: () -> Unit ={}
 ) {
-    Button(onClick = {}) {
+    Button(onClick = onClick) {
         Image(
             painterResource(id = icon),
             modifier = Modifier.size(20.dp),
             contentDescription ="Cart button icon",
             )
 
-        Text(text = "Add to cart",Modifier.padding(start = 10.dp))
+        Text(text = text,Modifier.padding(start = 10.dp))
     }
 }
 
@@ -40,9 +42,12 @@ fun ButtonWithIcon(
 //Rectangle Shape:
 
 @Composable
-fun ButtonWithRectangleShape() {
-    Button(onClick = {}, shape = RectangleShape) {
-        Text(text = "Rectangle shape")
+fun ButtonWithRectangleShape(
+    text:String,
+    onClick: () -> Unit ={}
+) {
+    Button(onClick = onClick, shape = RectangleShape) {
+        Text(text = text)
     }
 }
 //Round Corner Shape:
@@ -70,7 +75,9 @@ fun ButtonWithCutCornerShape() {
 
 
 @Composable
-fun ButtonWithBorder() {
+fun ButtonWithBorder(
+    text: String
+) {
     Button(
         onClick = {
             //your onclick code
@@ -78,7 +85,7 @@ fun ButtonWithBorder() {
         border = BorderStroke(1.dp, Color.Red),
         colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red)
     ) {
-        Text(text = "Button with border", color = Color.DarkGray)
+        Text(text = text , color = Color.DarkGray)
     }
 }
 
