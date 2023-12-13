@@ -1,11 +1,13 @@
 package com.example.composemed.data.local
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.composemed.domain.model.entities.MedicationEntity
+import com.example.composemed.home.domain.model.entities.MedicationEntity
 import org.junit.runner.RunWith
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.filters.SmallTest
+import com.example.composemed.home.data.local.AppDatabase
+import com.example.composemed.home.data.local.MedicationDao
 
 import kotlinx.coroutines.test.runTest
 import org.junit.After
