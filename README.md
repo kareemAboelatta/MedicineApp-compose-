@@ -1,6 +1,7 @@
 # Medicine Information
 
 Welcome to the Medicine Information app repository. This app is a modern solution leveraging the power of Android Jetpack Compose to present medicinal information effectively.
+![Android Compose Logo](https://3.bp.blogspot.com/-VVp3WvJvl84/X0Vu6EjYqDI/AAAAAAAAPjU/ZOMKiUlgfg8ok8DY8Hc-ocOvGdB0z86AgCLcBGAsYHQ/s1600/jetpack%2Bcompose%2Bicon_RGB.png ) 
 
 ## Features
 - **Retrofit Integration:** Fetches medicine data from an API efficiently.
@@ -11,10 +12,11 @@ Welcome to the Medicine Information app repository. This app is a modern solutio
 - **Testing:** Ensures reliability and robustness with comprehensive test cases.
 
 ## Screens
-- Login
 - Home: Displays medication information fetched from the API.
 - Favorites: Allows users to save and view their favorite medications.
 - Medication Details: Provides detailed information about each medication.
+- Login
+
 
 ## Getting Started
 Clone the repository:
