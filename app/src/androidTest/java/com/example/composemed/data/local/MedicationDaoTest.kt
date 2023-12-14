@@ -20,7 +20,6 @@ import org.junit.Assert.*
 class MedicationDaoTest {
 
 
-
     private lateinit var database: AppDatabase
     private lateinit var dao: MedicationDao
 
@@ -41,22 +40,21 @@ class MedicationDaoTest {
     }
 
     @Test
-    fun insertMedication_savesData() = runTest {
+    fun should_save_a_medicine_when_insert_a_medicine() = runTest {
         val medication = MedicationEntity(id = 22, name = "TestMed", dose = "20mg",
             strength = "Strong", description = "Test description",
             scientificName = "TestScientific", publisher = "TestPublisher")
         dao.insertMedication(medication)
-        println("insertMedication")
 
         val allMedications = dao.getAllMedications()
+
+
         assertTrue(allMedications.contains(medication))
-
-
 
     }
 
     @Test
-    fun getAllMedications_returnsAllData() = runTest {
+    fun should_return_all_saved_medicine_when_getting_medicines() = runTest {
         val medication1 = MedicationEntity(id= 1 , name = "TestMed1", dose = "10mg",
             strength = "Medium", description = "Description1",
             scientificName = "Scientific1", publisher = "Publisher1")
@@ -71,5 +69,11 @@ class MedicationDaoTest {
         assertEquals(allMedications.size, 2)
         assertTrue(allMedications.contains(medication1))
         assertTrue(allMedications.contains(medication2))
+    }
+
+    @Test
+    fun should_return_emptyList_when_getting_medicines_and_there_is_no_saved_medicine() = runTest {
+        val allMedications = dao.getAllMedications()
+        assertTrue(allMedications.isEmpty())
     }
 }

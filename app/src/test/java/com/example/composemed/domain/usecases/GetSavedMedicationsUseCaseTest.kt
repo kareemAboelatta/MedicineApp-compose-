@@ -4,6 +4,7 @@ import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.domain.repository.LocalMedicationRepository
 import com.example.composemed.home.domain.usecases.GetSavedMedicationsUseCase
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -40,7 +41,7 @@ class GetSavedMedicationsUseCaseTest {
     }
 
     @Test
-    fun `execute returns empty list`() = runBlocking {
+    fun `execute returns empty list`() = runTest {
         Mockito.`when`(mockLocalRepository.getAllMedications()).thenReturn(emptyList())
 
         val result = getSavedMedicationsUseCase.execute()
@@ -50,7 +51,7 @@ class GetSavedMedicationsUseCaseTest {
     }
 
     @Test
-    fun `execute handles large data set`() = runBlocking {
+    fun `execute handles large data set`() = runTest {
         val largeListOfMedications = (1..1000).map {
             Medication("Med$it", "${it}mg", "Strength$it", "Description$it", "Scientific$it", "Publisher$it")
         }

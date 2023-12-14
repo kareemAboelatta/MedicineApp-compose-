@@ -80,7 +80,7 @@ fun LoginScreen(navController: NavHostController) {
             hint = "Username",
             imageVector = Icons.Outlined.Email,
             onValueChange = {
-                state.updateEmail(it)
+                state.updateUsername(it)
             })
         PasswordTextField(
             modifier = Modifier
@@ -137,7 +137,6 @@ fun rememberLoginDataState(): LoginDataState =
         LoginDataState()
     }
 
-
 //login state holder
 class LoginDataState(
     val initialEmail: String = "",
@@ -148,8 +147,8 @@ class LoginDataState(
     var password by mutableStateOf(initialPassword)
         private set
 
-    fun updateEmail(newEmail: String) {
-        username = newEmail
+    fun updateUsername(newUsername: String) {
+        username = newUsername
     }
 
     fun updatePassword(newPassword: String) {

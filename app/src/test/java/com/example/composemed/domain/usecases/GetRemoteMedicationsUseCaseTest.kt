@@ -4,6 +4,7 @@ import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.domain.repository.MedicationRepository
 import com.example.composemed.home.domain.usecases.GetRemoteMedicationsUseCase
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -25,7 +26,7 @@ class GetRemoteMedicationsUseCaseTest {
     }
 
     @Test
-    fun `execute calls repository and returns data`() = runBlocking {
+    fun `execute calls repository and returns data`() = runTest {
         val mockMedications = listOf(
             Medication("Med1", "10mg", "Strong", "Description1", "Scientific1", "Publisher1")
 

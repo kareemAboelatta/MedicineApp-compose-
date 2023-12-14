@@ -90,7 +90,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation ("org.mockito:mockito-core:2.28.2")
+    testImplementation ("org.mockito:mockito-core:3.11.2")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
 
 
@@ -101,8 +102,6 @@ dependencies {
     implementation( "androidx.navigation:navigation-compose:2.7.5")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-
-
 
     // Coroutines
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
