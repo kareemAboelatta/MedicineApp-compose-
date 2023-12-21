@@ -9,6 +9,8 @@ import com.example.common.utils.mapToCustomError
 import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.domain.usecases.GetSavedMedicationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,8 +19,8 @@ class FavoritesViewModel @Inject constructor(
     private val getSavedMedicationsUseCase: GetSavedMedicationsUseCase
 ) : ViewModel() {
 
-    private val _savedMedicineState = mutableStateOf<UIState<List<Medication>>>(UIState.Empty)
-    val savedMedicineState: State<UIState<List<Medication>>> get() = _savedMedicineState
+    private val _savedMedicineState = MutableStateFlow<UIState<List<Medication>>>(UIState.Empty)
+    val savedMedicineState: StateFlow<UIState<List<Medication>>> get() = _savedMedicineState
 
     init {
         fetchSavedMedications()

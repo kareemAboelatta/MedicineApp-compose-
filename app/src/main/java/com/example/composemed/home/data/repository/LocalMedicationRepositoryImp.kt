@@ -4,14 +4,19 @@ import com.example.composemed.home.data.local.MedicationDao
 import com.example.composemed.home.data.local.entities.MedicationEntity
 import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.domain.repository.LocalMedicationRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LocalMedicationRepositoryImp @Inject constructor(
-    private val medicationDao: MedicationDao
+    private val medicationDao: MedicationDao,
+    private val ioDispatcher: CoroutineDispatcher
+
 ) : LocalMedicationRepository {
-    override suspend fun saveMedication(medication: Medication) {
-        medicationDao.insertMedication(medication.toEntity())
-    }
+    override suspend fun saveMedication(medication: Medication) =
+        withContext(ioDispatcher) { medicationDao.insertMedication(medication.toEntity()) }
+
 
     override suspend fun getAllMedications(): List<Medication> {
         return medicationDao.getAllMedications().map { it.toDomainModel() }
@@ -19,8 +24,6 @@ class LocalMedicationRepositoryImp @Inject constructor(
 
 
 }
-
-
 
 
 //Todo separate as a mapper file

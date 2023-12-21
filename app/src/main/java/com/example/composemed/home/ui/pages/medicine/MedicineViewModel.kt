@@ -10,6 +10,8 @@ import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.domain.usecases.GetRemoteMedicationsUseCase
 import com.example.composemed.home.domain.usecases.SaveMedicineUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 import javax.inject.Inject
@@ -21,12 +23,12 @@ class MedicineViewModel @Inject constructor(
     private val saveMedicineUseCase: SaveMedicineUseCase,
 ) : ViewModel() {
 
-    private val _medicineState = mutableStateOf<UIState<List<Medication>>>(UIState.Empty)
-    val medicineState: State<UIState<List<Medication>>> get() = _medicineState
+    private val _medicineState = MutableStateFlow<UIState<List<Medication>>>(UIState.Empty)
+    val medicineState: StateFlow<UIState<List<Medication>>> get() = _medicineState
 
 
-    private val _saveMedicineState = mutableStateOf<UIState<Medication>>(UIState.Empty)
-    val saveMedicineState: State<UIState<Medication>> get() = _saveMedicineState
+    private val _saveMedicineState = MutableStateFlow<UIState<Medication>>(UIState.Empty)
+    val saveMedicineState: StateFlow<UIState<Medication>> get() = _saveMedicineState
 
 
     init {

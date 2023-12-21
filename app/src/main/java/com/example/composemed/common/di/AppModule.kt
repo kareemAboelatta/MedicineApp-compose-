@@ -16,6 +16,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -28,8 +30,6 @@ AppModule {
     @Singleton
     @Provides
     fun provideContext(@ApplicationContext context: Context) = context
-
-
 
 
 
@@ -47,27 +47,32 @@ AppModule {
     @Singleton
     @Provides
     fun provideMedicationRepository(
-        apiPlaceholderService: ApiHealthService
+        apiPlaceholderService: ApiHealthService,
+        ioDispatcher: CoroutineDispatcher
+
     ): MedicationRepository =
-        MedicationRepositoryImpl(apiService = apiPlaceholderService)
+        MedicationRepositoryImpl(
+            apiService = apiPlaceholderService,
+            ioDispatcher = ioDispatcher
+        )
 
 
 
-
-
-
-
-
-
-
+    @Provides
+    @Singleton
+    fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     //local
     @Singleton
     @Provides
     fun provideLocalMedicationRepository(
-        medicationDao: MedicationDao
+        medicationDao: MedicationDao,
+        ioDispatcher: CoroutineDispatcher
     ): LocalMedicationRepository =
-        LocalMedicationRepositoryImp(medicationDao = medicationDao)
+        LocalMedicationRepositoryImp(
+            medicationDao = medicationDao,
+            ioDispatcher = ioDispatcher
+        )
 
     @Provides
     @Singleton

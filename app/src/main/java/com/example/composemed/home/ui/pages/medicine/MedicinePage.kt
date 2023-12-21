@@ -28,6 +28,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,7 +56,7 @@ fun MedicinePage(
     navController: NavHostController,
     viewModel: MedicineViewModel = hiltViewModel()
 ) {
-    when (val medicineState = viewModel.medicineState.value) {
+    when (val medicineState = viewModel.medicineState.collectAsState().value) {
         is UIState.Success -> MedicineListSection(
             medicines = medicineState.data,
             viewModel = viewModel,
