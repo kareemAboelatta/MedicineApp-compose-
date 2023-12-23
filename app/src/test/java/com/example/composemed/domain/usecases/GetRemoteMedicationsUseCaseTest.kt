@@ -6,6 +6,7 @@ import com.example.composemed.home.domain.usecases.GetRemoteMedicationsUseCase
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -39,4 +40,33 @@ class GetRemoteMedicationsUseCaseTest {
 
         assertEquals(mockMedications, result)
     }
+
+
+    @Test
+    fun `execute returns empty list when repository has no data`() = runTest {
+        Mockito.`when`(mockRepository.getMedications()).thenReturn(emptyList())
+
+        val result = getRemoteMedicationsUseCase.execute()
+
+        Mockito.verify(mockRepository).getMedications()
+
+        assertTrue(result.isEmpty())
+    }
+
+
+
+
+    @Test(expected = Exception::class)
+    fun `execute throws exception when repository encounters an error`() = runTest {
+        val exception = RuntimeException("Error")
+        Mockito.`when`(mockRepository.getMedications()).thenThrow(exception)
+
+        getRemoteMedicationsUseCase.execute()
+
+        Mockito.verify(mockRepository).getMedications()
+    }
+
+
+
+
 }

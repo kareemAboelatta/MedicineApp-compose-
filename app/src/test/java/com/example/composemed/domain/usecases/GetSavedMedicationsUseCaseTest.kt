@@ -63,4 +63,19 @@ class GetSavedMedicationsUseCaseTest {
         assertEquals(largeListOfMedications, result)
     }
 
+
+    @Test(expected = Exception::class)
+    fun `execute throws exception when repository encounters an error`() = runTest {
+        val exception = RuntimeException("Error")
+        Mockito.`when`(mockLocalRepository.getAllMedications()).thenThrow(exception)
+
+        getSavedMedicationsUseCase.execute()
+
+        Mockito.verify(mockLocalRepository).getAllMedications()
+    }
+
+
+
+
+
 }
