@@ -41,7 +41,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.example.common.ui.utils.PaddingDimensions
 import com.example.common.utils.UIState
 import com.example.composemed.home.domain.model.Medication

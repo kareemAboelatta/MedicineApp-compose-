@@ -2,8 +2,6 @@ package com.example.composemed.home.ui.pages.favorite_page
 
 import androidx.lifecycle.ViewModel
 import com.example.common.utils.UIState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.example.common.utils.mapToCustomError
 import com.example.composemed.home.domain.model.Medication

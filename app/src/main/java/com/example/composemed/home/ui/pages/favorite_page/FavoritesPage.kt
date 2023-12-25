@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.example.common.utils.UIState
 import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.ui.common.CentralizedErrorView
@@ -37,7 +36,6 @@ fun FavoritesPage(
             medicines = savedMedicineState.data,
             onMedicationClick=onMedicationClick
         )
-
         is UIState.Loading -> CentralizedProgressIndicator()
         is UIState.Error -> CentralizedErrorView(
             error = savedMedicineState.error,
@@ -67,9 +65,6 @@ fun FavoritesGridSection(
     )
 }
 
-
-/**/
-
 @Composable
 fun MedicationGridItem(
     medication: Medication,
@@ -96,8 +91,6 @@ fun MedicationGridItem(
             )
             Text(text = medication.strength)
             Text(text = medication.dose)
-
-
         }
     }
 }

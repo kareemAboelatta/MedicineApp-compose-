@@ -31,11 +31,11 @@ import com.example.composemed.home.ui.pages.medicine_details_page.MedicineDetail
 import java.time.LocalTime
 
 
-enum class HomeScreens(val route: String, @DrawableRes val icon: Int) {
+enum class HomeScreens(val route: String, @DrawableRes val icon: Int?) {
     Home("medicine", R.drawable.ic_home),
-    Favorites("favorites", R.drawable.ic_favorite)
+    Favorites("favorites", R.drawable.ic_favorite),
+    MedicineDetails("medicineDetails", null) // No icon for this as it's not in BottomNavigationBar
 }
-
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -62,7 +62,7 @@ fun HomeScreen(
                             key = "medicine",
                             value = medication
                         )
-                        homeNavController.navigate("MedicineDetailsPage")
+                        homeNavController.navigate(HomeScreens.MedicineDetails.route)
                     },
                 )
             }
@@ -73,14 +73,14 @@ fun HomeScreen(
                             key = "medicine",
                             value = medication
                         )
-                        homeNavController.navigate("MedicineDetailsPage")
+                        homeNavController.navigate(HomeScreens.MedicineDetails.route)
 
                     }
                 )
             }
 
 
-            composable("MedicineDetailsPage") {
+            composable(HomeScreens.MedicineDetails.route) {
                 val result =
                     homeNavController.previousBackStackEntry?.savedStateHandle?.get<Medication>(
                         "medicine"
@@ -134,22 +134,25 @@ fun BottomNavigationBar(navController: NavController) {
     BottomAppBar {
         val currentRoute = currentRoute(navController)
         HomeScreens.values().forEach { screen ->
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = screen.icon),
-                        null,
-                    )
-                }, // Set your icons here
-                label = { Text(screen.name) },
-                selected = currentRoute == screen.route,
-                onClick = {
-                    navController.navigate(screen.route) {
-                        launchSingleTop = true
+            if (screen.icon != null) {
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = screen.icon),
+                            null,
+                        )
+                    },
+                    label = { Text(screen.name) },
+                    selected = currentRoute == screen.route,
+                    onClick = {
+                        navController.navigate(screen.route) {
+                            launchSingleTop = true
+                        }
                     }
-                }
-            )
+                )
+            }
         }
+
     }
 }
 

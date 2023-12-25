@@ -3,15 +3,12 @@ package com.example.composemed
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.composemed.auth.ui.login.LoginScreen
-import com.example.composemed.home.domain.model.Medication
 import com.example.composemed.home.ui.HomeScreen
-import com.example.composemed.home.ui.pages.medicine_details_page.MedicineDetailsPage
 
 sealed class Screen(val route: String) {
     object Auth : Screen("auth")
@@ -26,12 +23,11 @@ sealed class Screen(val route: String) {
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-
+    
     NavHost(
         navController = navController,
         startDestination = Screen.Auth.route
     ) {
-
 
         //Auth
         navigation(
@@ -51,7 +47,6 @@ fun MainScreen() {
             composable(Screen.Register.route) {}
 
         }
-
 
         //Home
         composable(Screen.Home.route + "/{username}") { backStackEntry ->

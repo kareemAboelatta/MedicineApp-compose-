@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,40 +29,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.common.ui.utils.PaddingDimensions
 import com.example.composemed.home.domain.model.Medication
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MedicineDetailsPage(
     medication: Medication,
     onBackClick: () -> Unit,
-
     ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = ""
-                        )
-                    }
-                },
-                title = {
-                    Text(
-                        "Medication Details",
-                        style = MaterialTheme.typography.headlineMedium.copy(
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    )
-                })
+            MedicineDetailsTopBar(onBackClick = onBackClick)
         }
     ) {
         Column(
@@ -79,12 +59,22 @@ fun MedicineDetailsPage(
             MedicineDetailCard("Strength", medication.strength)
             MedicineDetailCard("Scientific Name", medication.scientificName)
             MedicineDetailCard("Publisher", medication.publisher)
-
             Spacer(modifier = Modifier.height(PaddingDimensions.large))
-
 
         }
     }
+}
+
+
+@Preview
+@Composable
+fun AnimatedMedicineDetailCardPreview() {
+    AnimatedMedicineDetailCard(label = "Description", value = "200 mg")
+}
+@Preview
+@Composable
+fun MedicineDetailCardPreview() {
+    MedicineDetailCard(label = "Description", value = "200 mg")
 }
 
 @Composable
@@ -167,4 +157,30 @@ fun MedicineDetailCard(label: String, value: String) {
 
         }
     }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MedicineDetailsTopBar(
+    onBackClick: () -> Unit,
+    ) {
+    TopAppBar(
+        navigationIcon = {
+            IconButton(onClick = onBackClick) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Back"
+                )
+            }
+        },
+        title = {
+            Text(
+                "Medication Details",
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    color = MaterialTheme.colorScheme.primary
+                )
+            )
+        }
+    )
 }

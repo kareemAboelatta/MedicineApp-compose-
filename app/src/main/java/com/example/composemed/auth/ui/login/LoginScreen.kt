@@ -17,12 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.listSaver
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,14 +24,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.common.ui.components.AppTextField
 import com.example.common.ui.components.PasswordTextField
 import com.example.common.ui.components.animations.InfinitelyScaling
 import com.example.common.ui.utils.PaddingDimensions
 import com.example.composemed.R
-import com.example.composemed.Screen
-import com.example.composemed.home.domain.model.Medication
 
 
 @Composable
@@ -64,6 +55,7 @@ fun LoginScreen(onLoginClicked: (String) -> Unit) {
                 contentDescription = "app logo"
             )
         }
+
         Spacer(modifier = Modifier.height(PaddingDimensions.xxLarge * 3))
 
         Text(
@@ -116,7 +108,6 @@ fun LoginScreen(onLoginClicked: (String) -> Unit) {
                     ).show()
                 }
 
-
             }
         ) {
             Text(
@@ -129,44 +120,3 @@ fun LoginScreen(onLoginClicked: (String) -> Unit) {
     }
 }
 
-
-@Composable
-fun rememberLoginDataState(): LoginDataState =
-    rememberSaveable(saver = LoginDataState.Saver) {
-        LoginDataState()
-    }
-
-//login state holder
-class LoginDataState(
-    val initialEmail: String = "",
-    val initialPassword: String = "",
-) {
-    var username by mutableStateOf(initialEmail)
-        private set
-    var password by mutableStateOf(initialPassword)
-        private set
-
-    fun updateUsername(newUsername: String) {
-        username = newUsername
-    }
-
-    fun updatePassword(newPassword: String) {
-        password = newPassword
-    }
-
-
-    companion object {
-        val Saver: Saver<LoginDataState, *> = listSaver(
-            save = {
-                listOf(it.username, it.password)
-            },
-            restore = {
-                LoginDataState(
-                    initialEmail = it[0],
-                    initialPassword = it[1],
-                )
-            }
-        )
-    }
-
-}
