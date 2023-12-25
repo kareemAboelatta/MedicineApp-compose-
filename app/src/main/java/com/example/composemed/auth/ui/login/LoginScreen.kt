@@ -37,10 +37,11 @@ import com.example.common.ui.components.animations.InfinitelyScaling
 import com.example.common.ui.utils.PaddingDimensions
 import com.example.composemed.R
 import com.example.composemed.Screen
+import com.example.composemed.home.domain.model.Medication
 
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(onLoginClicked: (String) -> Unit) {
 
     val state = rememberLoginDataState()
 
@@ -106,9 +107,7 @@ fun LoginScreen(navController: NavHostController) {
                 .fillMaxWidth(),
             onClick = {
                 if (state.username.isNotEmpty()) {
-                    navController.navigate(Screen.Home.route + "/${state.username}") {
-                        popUpTo(Screen.Auth.route) { inclusive = true }
-                    }
+                    onLoginClicked(state.username)
                 } else {
                     Toast.makeText(
                         context,

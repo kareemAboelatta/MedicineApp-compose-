@@ -39,40 +39,15 @@ enum class HomeScreens(val route: String, @DrawableRes val icon: Int) {
 
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    username:String,
+    username: String,
     logout: () -> Unit
 ) {
     val homeNavController = rememberNavController()
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    val greetingMessage = getGreetingMessage(username = username)
-                    Text(
-                        text = greetingMessage,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
-
-                },
-                actions = {
-                    IconButton(
-                        onClick = logout
-                    ) {
-                        Icon(
-                            painterResource(id = R.drawable.ic_logout),
-                            contentDescription = "logout"
-                        )
-                    }
-                }
-            )
-        },
+        topBar = { HomeScreenTopBar(username = username, logout = logout) },
         bottomBar = { BottomNavigationBar(navController = homeNavController) }
     ) { scaffoldPadding ->
         NavHost(
@@ -81,10 +56,27 @@ fun HomeScreen(
             startDestination = HomeScreens.Home.route
         ) {
             composable(HomeScreens.Home.route) {
-                MedicinePage(navController = homeNavController)
+                MedicinePage(
+                    onMedicationClick = { medication ->
+                        homeNavController.currentBackStackEntry?.savedStateHandle?.set(
+                            key = "medicine",
+                            value = medication
+                        )
+                        homeNavController.navigate("MedicineDetailsPage")
+                    },
+                )
             }
             composable(HomeScreens.Favorites.route) {
-                FavoritesPage(navController = homeNavController)
+                FavoritesPage(
+                    onMedicationClick = { medication ->
+                        homeNavController.currentBackStackEntry?.savedStateHandle?.set(
+                            key = "medicine",
+                            value = medication
+                        )
+                        homeNavController.navigate("MedicineDetailsPage")
+
+                    }
+                )
             }
 
 
@@ -95,7 +87,7 @@ fun HomeScreen(
                     )
                 result?.let {
                     MedicineDetailsPage(
-                        navController = homeNavController,
+                        onBackClick = homeNavController::popBackStack,
                         medication = result
                     )
                 }
@@ -104,6 +96,38 @@ fun HomeScreen(
     }
 }
 
+
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeScreenTopBar(
+    username: String,
+    logout: () -> Unit
+) {
+    TopAppBar(
+        title = {
+            val greetingMessage = getGreetingMessage(username = username)
+            Text(
+                text = greetingMessage,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+
+        },
+        actions = {
+            IconButton(
+                onClick = logout
+            ) {
+                Icon(
+                    painterResource(id = R.drawable.ic_logout),
+                    contentDescription = "logout"
+                )
+            }
+        }
+    )
+}
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -121,7 +145,7 @@ fun BottomNavigationBar(navController: NavController) {
                 selected = currentRoute == screen.route,
                 onClick = {
                     navController.navigate(screen.route) {
-                            launchSingleTop = true
+                        launchSingleTop = true
                     }
                 }
             )
@@ -135,7 +159,6 @@ fun currentRoute(navController: NavController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     return navBackStackEntry?.destination?.route
 }
-
 
 
 @RequiresApi(Build.VERSION_CODES.O)

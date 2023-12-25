@@ -1,5 +1,7 @@
 package com.example.composemed.home.data.repository
 
+import com.example.composemed.common.AppDispatcher
+import com.example.composemed.common.Dispatcher
 import com.example.composemed.home.data.local.MedicationDao
 import com.example.composemed.home.data.local.entities.MedicationEntity
 import com.example.composemed.home.domain.model.Medication
@@ -9,11 +11,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LocalMedicationRepositoryImp @Inject constructor(
+class LocalMedicationRepositoryImp (
     private val medicationDao: MedicationDao,
-    private val ioDispatcher: CoroutineDispatcher
+    private val ioDispatcher: CoroutineDispatcher,
 
-) : LocalMedicationRepository {
+    ) : LocalMedicationRepository {
     override suspend fun saveMedication(medication: Medication) =
         withContext(ioDispatcher) { medicationDao.insertMedication(medication.toEntity()) }
 

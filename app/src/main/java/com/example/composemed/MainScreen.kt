@@ -30,8 +30,7 @@ fun MainScreen() {
     NavHost(
         navController = navController,
         startDestination = Screen.Auth.route
-    )
-    {
+    ) {
 
 
         //Auth
@@ -40,41 +39,43 @@ fun MainScreen() {
             route = Screen.Auth.route
         ) {
             composable(Screen.Login.route) {
-                LoginScreen(navController = navController)
+                LoginScreen(
+                    onLoginClicked = { username ->
+                        navController.navigate(Screen.Home.route + "/${username}") {
+                            popUpTo(Screen.Auth.route) { inclusive = true }
+                        }
+                    },
+                )
 
             }
-            composable(Screen.Register.route) {
-
-            }
+            composable(Screen.Register.route) {}
 
         }
 
 
         //Home
-        composable(Screen.Home.route+"/{username}") {backStackEntry ->
-            val username = backStackEntry.arguments?.getString("username")?: "Default name"
+        composable(Screen.Home.route + "/{username}") { backStackEntry ->
+            val username = backStackEntry.arguments?.getString("username") ?: "Default name"
 
-                HomeScreen(
-                    username = username,
-                    //when this fun invoked anywhere in HomeScreen it, it will leave home pages
-                    logout = {
-                        navController.navigate(Screen.Auth.route) {
-                            popUpTo(Screen.Home.route) {
-                                inclusive = true
-                            }
+            HomeScreen(
+                username = username,
+                //when this fun invoked anywhere in HomeScreen it, it will leave home pages
+                logout = {
+                    navController.navigate(Screen.Auth.route) {
+                        popUpTo(Screen.Home.route) {
+                            inclusive = true
                         }
                     }
-                )
-
-        }
-
-
-
+                }
+            )
 
         }
 
 
     }
+
+
+}
 
 
 

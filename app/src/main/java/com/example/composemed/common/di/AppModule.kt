@@ -2,7 +2,9 @@ package com.example.composemed.common.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.composemed.common.AppDispatcher
 import com.example.composemed.common.Constants
+import com.example.composemed.common.Dispatcher
 import com.example.composemed.home.data.local.AppDatabase
 import com.example.composemed.home.data.local.MedicationDao
 import com.example.composemed.home.data.remote.ApiHealthService
@@ -48,8 +50,7 @@ AppModule {
     @Provides
     fun provideMedicationRepository(
         apiPlaceholderService: ApiHealthService,
-        ioDispatcher: CoroutineDispatcher
-
+        @Dispatcher(AppDispatcher.IO)   ioDispatcher: CoroutineDispatcher
     ): MedicationRepository =
         MedicationRepositoryImpl(
             apiService = apiPlaceholderService,
@@ -58,16 +59,12 @@ AppModule {
 
 
 
-    @Provides
-    @Singleton
-    fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
-
     //local
     @Singleton
     @Provides
     fun provideLocalMedicationRepository(
         medicationDao: MedicationDao,
-        ioDispatcher: CoroutineDispatcher
+        @Dispatcher(AppDispatcher.IO)  ioDispatcher: CoroutineDispatcher
     ): LocalMedicationRepository =
         LocalMedicationRepositoryImp(
             medicationDao = medicationDao,

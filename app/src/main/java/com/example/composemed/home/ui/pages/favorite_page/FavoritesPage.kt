@@ -29,13 +29,13 @@ import com.example.composemed.home.ui.common.CentralizedTextView
 
 @Composable
 fun FavoritesPage(
-    navController: NavHostController,
+    onMedicationClick: (Medication) -> Unit,
     viewModel: FavoritesViewModel = hiltViewModel()
 ) {
     when (val savedMedicineState = viewModel.savedMedicineState.collectAsState().value) {
         is UIState.Success -> FavoritesGridSection(
             medicines = savedMedicineState.data,
-            navController = navController
+            onMedicationClick=onMedicationClick
         )
 
         is UIState.Loading -> CentralizedProgressIndicator()
@@ -51,7 +51,7 @@ fun FavoritesPage(
 @Composable
 fun FavoritesGridSection(
     medicines: List<Medication>,
-    navController: NavHostController,
+    onMedicationClick: (Medication) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2), // Adjust the number of columns
@@ -60,18 +60,15 @@ fun FavoritesGridSection(
             items(medicines) { medication ->
                 MedicationGridItem(
                     medication = medication,
-                    onDetailsClick = {
-                        navController.currentBackStackEntry?.savedStateHandle?.set(
-                            key = "medicine",
-                            value = medication
-                        )
-                        navController.navigate("MedicineDetailsPage")
-                    },
+                    onDetailsClick = { onMedicationClick(medication) },
                 )
             }
         }
     )
 }
+
+
+/**/
 
 @Composable
 fun MedicationGridItem(

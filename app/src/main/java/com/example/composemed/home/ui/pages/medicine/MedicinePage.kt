@@ -53,14 +53,14 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MedicinePage(
-    navController: NavHostController,
+    onMedicationClick: (Medication) -> Unit,
     viewModel: MedicineViewModel = hiltViewModel()
 ) {
     when (val medicineState = viewModel.medicineState.collectAsState().value) {
         is UIState.Success -> MedicineListSection(
             medicines = medicineState.data,
             viewModel = viewModel,
-            navController = navController
+            onMedicationClick = onMedicationClick
         )
 
         is UIState.Loading -> CentralizedProgressIndicator()
@@ -77,7 +77,7 @@ fun MedicinePage(
 fun MedicineListSection(
     medicines: List<Medication>,
     viewModel: MedicineViewModel,
-    navController: NavHostController,
+    onMedicationClick: (Medication) -> Unit,
 ) {
     Box {
         val listState = rememberLazyListState()
@@ -89,13 +89,7 @@ fun MedicineListSection(
             items(medicines) { medication ->
                 MedicationItem(
                     medication = medication,
-                    onDetailsClick = {
-                        navController.currentBackStackEntry?.savedStateHandle?.set(
-                            key = "medicine",
-                            value = medication
-                        )
-                        navController.navigate("MedicineDetailsPage")
-                    },
+                    onDetailsClick = { onMedicationClick(medication) },
                     onSaveClick = { viewModel.saveMedicine(medication) }
                 )
             }

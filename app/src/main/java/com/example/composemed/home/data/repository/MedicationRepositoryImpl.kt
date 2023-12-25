@@ -1,5 +1,7 @@
 package com.example.composemed.home.data.repository
 
+import com.example.composemed.common.AppDispatcher
+import com.example.composemed.common.Dispatcher
 import com.example.composemed.home.data.remote.models.toDomainModel
 import com.example.composemed.home.data.remote.ApiHealthService
 import com.example.composemed.home.domain.model.Medication
@@ -10,8 +12,8 @@ import kotlinx.coroutines.withContext
 
 class MedicationRepositoryImpl(
     private val apiService: ApiHealthService,
-    private val ioDispatcher: CoroutineDispatcher
-) : MedicationRepository {
+    @Dispatcher(AppDispatcher.IO) private val ioDispatcher: CoroutineDispatcher,
+    ) : MedicationRepository {
 
     override suspend fun getMedications(): List<Medication> {
         return withContext(ioDispatcher) {

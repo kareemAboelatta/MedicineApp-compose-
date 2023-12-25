@@ -40,14 +40,16 @@ import com.example.composemed.home.domain.model.Medication
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MedicineDetailsPage(medication: Medication, navController: NavController) {
+fun MedicineDetailsPage(
+    medication: Medication,
+    onBackClick: () -> Unit,
+
+    ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = {
-                        navController.navigateUp()
-                    }) {
+                    IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = ""
@@ -94,10 +96,10 @@ fun AnimatedMedicineDetailCard(label: String, value: String) {
         modifier = Modifier
             .animateContentSize()
             .fillMaxWidth()
+            .padding(PaddingDimensions.medium)
             .clickable {
                 isExpanded = !isExpanded
-            }
-            .padding(PaddingDimensions.medium),
+            },
         shape = RoundedCornerShape(10.dp),
     ) {
         Column(modifier = Modifier.padding(PaddingDimensions.large)) {
@@ -110,8 +112,6 @@ fun AnimatedMedicineDetailCard(label: String, value: String) {
                         color = MaterialTheme.colorScheme.primary
                     ),
                 )
-
-
 
                 IconButton(
                     onClick = {
